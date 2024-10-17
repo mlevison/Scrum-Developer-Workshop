@@ -1,10 +1,10 @@
 import org.apache.commons.csv.CSVRecord;
+import org.example.ExpenseData;
 import org.example.ExpenseLoader;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -347,24 +347,13 @@ public class ExpenseLoaderTest {
 
         for (CSVRecord row : rows) {
             int rowNumber = (int) row.getRecordNumber() - 1;
-            String store = row.get("Merchant");
-            assertThat(store).withFailMessage("Actual Store: " + store + " Expected: " + storeList[rowNumber] + " at row: " + rowNumber).isEqualTo(storeList[rowNumber]);
+            ExpenseData expenseData = new ExpenseData(row);
+            assertThat(expenseData.getStore()).withFailMessage("Actual Store: " + expenseData.getStore() + " Expected: " + storeList[rowNumber] + " at row: " + rowNumber).isEqualTo(storeList[rowNumber]);
             //assertEquals(storeList[(int) row.getRecordNumber() - 1], store);
 
-            String date = row.get(0);
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDate transactionDate = LocalDate.parse(date, dateTimeFormatter);
+            assertThat(expenseData.getDate()).withFailMessage("Actual Date: " + expenseData.getDate() + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
 
-            assertThat(transactionDate).withFailMessage("Actual Date: " + transactionDate + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
-           String amount = row.get("Amount");
-
-           if (amount.startsWith("(") && amount.endsWith(")")) {
-            amount = "-" + amount.substring(1, amount.length()-1);
-           }
-
-           BigDecimal transactionAmount = new BigDecimal(amount).setScale(2);
-
-           assertThat(transactionAmount).withFailMessage("Actual Amount: " + transactionAmount + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
+            assertThat(expenseData.getAmount()).withFailMessage("Actual Amount: " + expenseData.getAmount() + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
         }
     }
 }

@@ -5,12 +5,13 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpenseLoaderTest {
     private final String expenseFilePath = "src/test/resources/ExpensifyExpenseExportSample.csv";
     private final String[] storeList = {
-            "OneResto",
+            "OneRestaurant",
             "FoodOut",
             "AGrocery",
             "Coffee1",
@@ -39,9 +40,9 @@ public class ExpenseLoaderTest {
             "Banking.",
             "FoodStore",
             "AnotherGrocer",
-            "CLothingStore",
-            "CLothingStore",
-            "TENNISZON",
+            "ClothingStore",
+            "ClothingStore",
+            "AnotherClothingStore",
             "Parking",
             "HouseholdGoods",
             "AnotherGrocer",
@@ -50,7 +51,7 @@ public class ExpenseLoaderTest {
             "AnotherStore",
             "AGrocery",
             "BHousehold",
-            "Cogro",
+            "CommonGrounds",
             "Grocery Checkout",
             "FoodOut R",
             "FoodOut",
@@ -86,7 +87,7 @@ public class ExpenseLoaderTest {
             "Cafe",
             "Airline",
             "Airline",
-            "ClothingStoe",
+            "ClothingStore",
             "AnotherGrocer",
             "AnotherGrocer"
     };
@@ -343,11 +344,11 @@ public class ExpenseLoaderTest {
         var rows = expenseLoader.getRows();
         assertEquals(categories.length, rows.size());
 
-        for (CSVRecord row: rows ) {
+        for (CSVRecord row : rows) {
+            int rowNumber = (int) row.getRecordNumber() - 1;
             String store = row.get("Merchant");
-            assertEquals(storeList[(int)row.getRecordNumber()-1], store);
+            assertThat(store).withFailMessage("Actual Store: " + store + " Expected: " + storeList[rowNumber] + " at row: " + rowNumber).isEqualTo(storeList[rowNumber]);
+            //assertEquals(storeList[(int) row.getRecordNumber() - 1], store);
         }
-
-
     }
 }

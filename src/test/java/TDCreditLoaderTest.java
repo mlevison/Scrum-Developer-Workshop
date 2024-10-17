@@ -102,7 +102,7 @@ public class TDCreditLoaderTest {
     private final BigDecimal[] amountList = {
             new BigDecimal("-18074").movePointLeft(2),
             new BigDecimal("-172").movePointLeft(2),
-            new BigDecimal("-85"),
+            new BigDecimal("-8500").movePointLeft(2),
             new BigDecimal("-3818").movePointLeft(2),
             new BigDecimal("-712").movePointLeft(2),
             new BigDecimal("-735").movePointLeft(2),
@@ -117,7 +117,7 @@ public class TDCreditLoaderTest {
             new BigDecimal("-1594").movePointLeft(2),
             new BigDecimal("-2033").movePointLeft(2),
             new BigDecimal("-6183").movePointLeft(2),
-            new BigDecimal("-85"),
+            new BigDecimal("-8500").movePointLeft(2),
             new BigDecimal("-2069").movePointLeft(2),
             new BigDecimal("-850").movePointLeft(2),
             new BigDecimal("-1929").movePointLeft(2),
@@ -127,9 +127,9 @@ public class TDCreditLoaderTest {
             new BigDecimal("-1825").movePointLeft(2),
             new BigDecimal("-1342").movePointLeft(2),
             new BigDecimal("-2343").movePointLeft(2),
-            new BigDecimal("-19"),
+            new BigDecimal("-1900").movePointLeft(2),
             new BigDecimal("-5351").movePointLeft(2),
-            new BigDecimal("-80"),
+            new BigDecimal("-8000").movePointLeft(2),
             new BigDecimal("-562").movePointLeft(2),
             new BigDecimal("-8769").movePointLeft(2),
             new BigDecimal("-2267").movePointLeft(2),
@@ -162,9 +162,14 @@ public class TDCreditLoaderTest {
             assertThat(transactionDate).withFailMessage("Actual Date: " + transactionDate + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
 
             String amount = row.get(2);
-            BigDecimal transactionAmount = new BigDecimal(amount).setScale(2);
 
-            // assertThat(transactionAmount).withFailMessage("Actual Amount: " + transactionAmount + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
+            if (amount.isEmpty()) {
+                amount = "-" + row.get(3);
+            }
+
+            BigDecimal transactionAmount = new BigDecimal(amount).setScale(2).negate();
+
+            assertThat(transactionAmount).withFailMessage("Actual Amount: " + transactionAmount + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
         }
     }
 }

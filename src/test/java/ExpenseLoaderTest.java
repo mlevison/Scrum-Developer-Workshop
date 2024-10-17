@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -349,6 +350,16 @@ public class ExpenseLoaderTest {
             String store = row.get("Merchant");
             assertThat(store).withFailMessage("Actual Store: " + store + " Expected: " + storeList[rowNumber] + " at row: " + rowNumber).isEqualTo(storeList[rowNumber]);
             //assertEquals(storeList[(int) row.getRecordNumber() - 1], store);
+
+            String date = row.get(0);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDate transactionDate = LocalDate.parse(date, dateTimeFormatter);
+
+//            assertThat(transactionDate).withFailMessage("Actual Date: " + transactionDate + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
+//            String amount = row.get("Amount");
+//            BigDecimal transactionAmount = new BigDecimal(amount).setScale(2);
+//
+//            assertThat(transactionAmount).withFailMessage("Actual Amount: " + transactionAmount + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
         }
     }
 }

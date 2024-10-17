@@ -1,3 +1,4 @@
+import org.apache.commons.csv.CSVRecord;
 import org.example.ExpenseLoader;
 import org.junit.jupiter.api.Test;
 
@@ -340,6 +341,13 @@ public class ExpenseLoaderTest {
     void sampleExpensesLoad() {
         ExpenseLoader expenseLoader = new ExpenseLoader(expenseFilePath);
         var rows = expenseLoader.getRows();
-        assertEquals(79, rows.size());
+        assertEquals(categories.length, rows.size());
+
+        for (CSVRecord row: rows ) {
+            String store = row.get("Merchant");
+            assertEquals(storeList[(int)row.getRecordNumber()-1], store);
+        }
+
+
     }
 }

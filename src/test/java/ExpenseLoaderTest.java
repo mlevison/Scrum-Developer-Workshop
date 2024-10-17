@@ -355,7 +355,7 @@ public class ExpenseLoaderTest {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDate transactionDate = LocalDate.parse(date, dateTimeFormatter);
 
-//            assertThat(transactionDate).withFailMessage("Actual Date: " + transactionDate + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
+            assertThat(transactionDate).withFailMessage("Actual Date: " + transactionDate + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
 //            String amount = row.get("Amount");
 //            BigDecimal transactionAmount = new BigDecimal(amount).setScale(2);
 //

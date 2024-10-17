@@ -151,7 +151,7 @@ public class TDCreditLoaderTest {
         assertEquals(dateList.length, rows.size());
 
         for (CSVRecord row : rows) {
-            int rowNumber = (int) row.getRecordNumber();
+            int rowNumber = (int) row.getRecordNumber() - 1;
             //  String store = row.get(1);
             // assertThat(store).withFailMessage("Actual Store: " + store + " Expected: " + storeList[rowNumber] + " at row: " + rowNumber).isEqualTo(storeList[rowNumber]);
             //assertEquals(storeList[(int) row.getRecordNumber() - 1], store);

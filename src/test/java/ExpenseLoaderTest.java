@@ -356,10 +356,15 @@ public class ExpenseLoaderTest {
             LocalDate transactionDate = LocalDate.parse(date, dateTimeFormatter);
 
             assertThat(transactionDate).withFailMessage("Actual Date: " + transactionDate + " Expected: " + dateList[rowNumber] + " at row: " + rowNumber).isEqualTo(dateList[rowNumber]);
-//            String amount = row.get("Amount");
-//            BigDecimal transactionAmount = new BigDecimal(amount).setScale(2);
-//
-//            assertThat(transactionAmount).withFailMessage("Actual Amount: " + transactionAmount + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
+           String amount = row.get("Amount");
+
+           if (amount.startsWith("(") && amount.endsWith(")")) {
+            amount = "-" + amount.substring(1, amount.length()-1);
+           }
+
+           BigDecimal transactionAmount = new BigDecimal(amount).setScale(2);
+
+           assertThat(transactionAmount).withFailMessage("Actual Amount: " + transactionAmount + " Expected: " + amountList[rowNumber] + " at row: " + rowNumber).isEqualTo(amountList[rowNumber]);
         }
     }
 }
